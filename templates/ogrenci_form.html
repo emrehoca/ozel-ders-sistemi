@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Yeni Öğrenci' if not ogrenci else 'Öğrenci Düzenle' }}{% endblock %}
+{% block content %}
+<h2>{{ 'Yeni Öğrenci' if not ogrenci else 'Öğrenci Düzenle' }}</h2>
+<form method="post" class="mt-4">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Ad Soyad *</label>
+            <input type="text" name="ad" class="form-control" value="{{ ogrenci.ad if ogrenci }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Telefon</label>
+            <input type="text" name="telefon" class="form-control" value="{{ ogrenci.telefon if ogrenci }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Veli Telefon</label>
+            <input type="text" name="veli_telefon" class="form-control" value="{{ ogrenci.veli_telefon if ogrenci }}">
+        </div>
+        <div class="col-12">
+            <label class="form-label">Notlar</label>
+            <textarea name="notlar" class="form-control" rows="4">{{ ogrenci.notlar if ogrenci }}</textarea>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-success">Kaydet</button>
+            <a href="{{ url_for('ogrenciler') }}" class="btn btn-secondary">İptal</a>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Ödeme Takibi{% endblock %}
+{% block content %}
+<h2>Ödeme Takibi</h2>
+<form method="post" action="{{ url_for('odeme_ekle') }}" class="mb-4 bg-white p-4 rounded shadow">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <select name="ogrenci_id" class="form-select" required>
+                <option value="">Öğrenci Seç</option>
+                {% for ogr in ogrenciler %}
+                <option value="{{ ogr.id }}">{{ ogr.ad }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="number" step="0.01" name="tutar" class="form-control" placeholder="Tutar" required>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="aciklama" class="form-control" placeholder="Açıklama (opsiyonel)">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success w-100">Ekle</button>
+        </div>
+    </div>
+</form>
+
+{% for ogr in ogrenciler %}
+<div class="card mb-3">
+    <div class="card-header bg-success text-white">
+        <strong>{{ ogr.ad }}</strong> - Toplam Ödenen: {{ "%.2f"|format(toplamlar[ogr.id]|default(0)) }} TL
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-sm mb-0">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Tutar</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for odeme in odemeler %}
+                    {% if odeme.ogrenci_id == ogr.id %}
+                    <tr>
+                        <td>{{ odeme.tarih.strftime('%d.%m.%Y') }}</td>
+                        <td>{{ "%.2f"|format(odeme.tutar) }} TL</td>
+                        <td>{{ odeme.aciklama or '-' }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
