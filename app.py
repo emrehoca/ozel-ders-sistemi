@@ -6,7 +6,7 @@ import calendar
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ozelders2025superkey'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////data/ozelders.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:////data/ozelders.db')
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {'future': True}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -382,4 +382,5 @@ def odeme_ekle():
     db.session.commit()
     flash('Ödeme kaydedildi!', 'success')
     return redirect(url_for('odemeler'))  # <-- BURADA 'odemeler' doğru olmalı
+
 
