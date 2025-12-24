@@ -356,8 +356,7 @@ def takvim():
         ders_dict[key].append(ders)
     return render_template('takvim.html', yil=yil, ay=ay, cal=cal, ders_dict=ders_dict, calendar=calendar)
 
-# === ÖDEMELER ===
-@app.route('/odemeler')
+Python@app.route('/odemeler')
 @login_required
 def odemeler():
     user_id = session['user_id']
@@ -376,11 +375,10 @@ def odeme_ekle():
     odeme = Odeme(
         ogrenci_id=request.form['ogrenci_id'],
         tutar=float(request.form['tutar']),
-        aciklama=request.form['aciklama'],
+        aciklama=request.form.get('aciklama', ''),
         user_id=user_id
     )
     db.session.add(odeme)
     db.session.commit()
     flash('Ödeme kaydedildi!', 'success')
-
-    return redirect(url_for('odemeler'))
+    return redirect(url_for('odemeler'))  # <-- BURADA 'odemeler' doğru olmalı
