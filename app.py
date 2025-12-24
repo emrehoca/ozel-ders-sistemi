@@ -3,6 +3,7 @@ from models import db, User, Ogrenci, Ders, Odev, Odeme
 from datetime import datetime
 import uuid
 import calendar
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ozelders2025superkey'
@@ -382,6 +383,7 @@ def odeme_ekle():
     db.session.commit()
     flash('Ödeme kaydedildi!', 'success')
     return redirect(url_for('odemeler'))  # <-- BURADA 'odemeler' doğru olmalı
+
 
 
 
