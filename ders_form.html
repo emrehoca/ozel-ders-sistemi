@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Yeni Ders Ekle{% endblock %}
+{% block content %}
+<h2>Yeni Ders Ekle</h2>
+<form method="post">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label>Öğrenci</label>
+            <select name="ogrenci_id" class="form-select" required>
+                {% for ogr in ogrenciler %}
+                <option value="{{ ogr.id }}">{{ ogr.ad }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label>Tarih</label>
+            <input type="date" name="tarih" class="form-control" required>
+        </div>
+        <div class="col-md-2">
+            <label>Saat</label>
+            <input type="time" name="saat" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label>Konu</label>
+            <input type="text" name="konu" class="form-control" required>
+        </div>
+    </div>
+    <div class="mt-3">
+        <div class="form-check">
+            <input type="checkbox" name="online" id="online" class="form-check-input" onchange="toggleOnline()">
+            <label class="form-check-label">Online Ders</label>
+        </div>
+    </div>
+    <div id="online_fields" style="display:none;" class="row g-3 mt-2">
+        <div class="col-md-4">
+            <select name="platform" class="form-select">
+                <option>Jitsi Meet</option>
+                <option>Google Meet</option>
+                <option>Zoom</option>
+            </select>
+        </div>
+        <div class="col-md-8">
+            <input type="text" name="link" class="form-control" placeholder="Link (Jitsi için otomatik oluşturulur)">
+        </div>
+    </div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success">Ders Ekle</button>
+        <a href="{{ url_for('dersler') }}" class="btn btn-secondary">İptal</a>
+    </div>
+</form>
+<script>
+function toggleOnline() {
+    document.getElementById('online_fields').style.display = 
+        document.getElementById('online').checked ? 'block' : 'none';
+}
+</script>
+{% endblock %}

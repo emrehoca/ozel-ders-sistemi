@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Ödevler{% endblock %}
+{% block content %}
+<h2>Ödevler</h2>
+<form method="post" action="{{ url_for('odev_ekle') }}" class="mb-4 bg-white p-4 rounded shadow">
+    <div class="row g-3">
+        <div class="col-md-4">
+            <select name="ogrenci_id" class="form-select" required>
+                <option value="">Öğrenci Seç</option>
+                {% for ogr in ogrenciler %}
+                <option value="{{ ogr.id }}">{{ ogr.ad }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-5">
+            <input type="text" name="tanim" class="form-control" placeholder="Ödev Tanımı" required>
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="teslim_tarihi" class="form-control" required>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-success w-100">Ver</button>
+        </div>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Öğrenci</th>
+                <th>Ödev</th>
+                <th>Teslim Tarihi</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for odev in odevler %}
+            <tr>
+                <td>{{ odev.ogrenci.ad }}</td>
+                <td>{{ odev.tanim }}</td>
+                <td>{{ odev.teslim_tarihi }}</td>
+                <td>{% if odev.tamamlandi %}Tamamlandı{% else %}Devam Ediyor{% endif %}</td>
+                <td>
+                    {% if not odev.tamamlandi %}
+                    <a href="{{ url_for('odev_tamamla', id=odev.id) }}" class="btn btn-sm btn-success">Tamamla</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

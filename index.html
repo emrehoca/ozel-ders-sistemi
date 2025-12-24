@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Ana Sayfa{% endblock %}
+{% block content %}
+<div class="row text-center py-5">
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="display-4 text-primary">{{ ogrenci_sayisi }}</h1>
+                <p class="lead">Öğrenci</p>
+                <a href="{{ url_for('ogrenciler') }}" class="btn btn-primary">Git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="display-4 text-success">{{ ders_sayisi }}</h1>
+                <p class="lead">Planlanmış Ders</p>
+                <a href="{{ url_for('dersler') }}" class="btn btn-success">Git</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="display-4 text-info"><i class="fas fa-calendar-alt"></i></h1>
+                <p class="lead">Takvim</p>
+                <a href="{{ url_for('takvim') }}" class="btn btn-info">Git</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

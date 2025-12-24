@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Takvim{% endblock %}
+{% block content %}
+<h2 class="text-center">Takvim - {{ calendar.month_name[ay] }} {{ yil }}</h2>
+<div class="d-flex justify-content-between mb-3">
+    <a href="{{ url_for('takvim', ay=ay-1 if ay > 1 else 12, yil=yil if ay > 1 else yil-1) }}" class="btn btn-outline-primary">Önceki Ay</a>
+    <a href="{{ url_for('takvim') }}" class="btn btn-outline-secondary">Bugün</a>
+    <a href="{{ url_for('takvim', ay=ay+1 if ay < 12 else 1, yil=yil if ay < 12 else yil+1) }}" class="btn btn-outline-primary">Sonraki Ay</a>
+</div>
+
+<div class="row row-cols-7 g-3 text-center">
+    {% for hafta in cal %}
+        {% for gun in hafta %}
+            {% if gun != 0 %}
+                {% set tarih_str = '%04d-%02d-%02d'|format(yil, ay, gun) %}
+                {% set dersler_gun = ders_dict.get(tarih_str, []) %}
+                <div class="col">
+                    <div class="border p-3 rounded {% if dersler_gun %}bg-warning bg-opacity-25{% endif %}">
+                        <strong class="d-block">{{ gun }}</strong>
+                        {% if dersler_gun %}
+                            <small class="text-muted">{{ dersler_gun|length }} ders</small>
+                            {% for ders in dersler_gun[:3] %}
+                                <div class="small mt-1">{{ ders.ogrenci.ad }} - {{ ders.saat or '' }}</div>
+                            {% endfor %}
+                            {% if dersler_gun|length > 3 %}
+                                <small>...</small>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="col"><div class="border p-3 bg-secondary bg-opacity-10 invisible">0</div></div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}
